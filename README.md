@@ -6,7 +6,8 @@ Open-source DFRobot themed cases for UNIHIKER dev board
 1. Access the **model viewer** via:
 https://theroam.github.io/DFRobot-UNIHIKER-case/
 
-2. Download existing models in **blender**  folder
+2. Download existing models in **blender**  folder.
+   Check the .md file of each model for details.
    
 4. **Contribute** with editions or new models by doing a **pull request**.
 
