@@ -1,5 +1,5 @@
 # DFRobot-UNIHIKER-case
-Oper-source DFRobot themed cases for UNIHIKER dev board
+Open-source DFRobot themed cases for UNIHIKER dev board
 
 ![case_v1](https://github.com/TheRoam/DFRobot-UNIHIKER-case/assets/63456390/28cd25ce-e326-4b54-84b6-649e6f85a37d)
 
