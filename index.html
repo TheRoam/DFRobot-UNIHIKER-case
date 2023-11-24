@@ -40,7 +40,7 @@
 		scene = new THREE.Scene();
     
     //add background image
-const texture = new THREE.TextureLoader().load( "https://github.com/TheRoam/DFRobot-UNIHIKER-case/raw/main/test/Unity1-north.png" );
+const texture = new THREE.TextureLoader().load( "./raw/main/test/Unity1-north.png" );
 scene.background=texture; 
             
         scene.add( new THREE.AmbientLight( 0xffffff, 0.75 ) );
@@ -59,7 +59,7 @@ scene.background=texture;
 
         //model
          const loader = new GLTFLoader();
-		 loader.load( 'https://github.com/TheRoam/DFRobot-UNIHIKER-case/raw/main/test/rPi4_case_v1.glb', function ( gltf ) {
+		 loader.load( './raw/main/test/rPi4_case_v1.glb', function ( gltf ) {
 			scene.add( gltf.scene );
 			render();
 		 } );
