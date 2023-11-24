@@ -2,12 +2,20 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Raspberry Pi 4B simple case</title>
+		<title>DFRobot themed UNIHIKER case</title>
 		<style>
 			body { margin: 0; }
+        a {color:cyan;}
+        a:active{color:yellow;}
 		</style>
 	</head>
 <body>
+<div id="container"></div>
+<div id="info" style="display:flex;flex-direction:column;position:absolute;width:100%;margin:auto;bottom:0;color:white;background:transparent">
+	<p><b>DFRobot themed UNIHIKER case</b></p>
+	<p><i>Uses Three.js and skybox images from Stellarium</i></p>
+	<p>Origianl author: </p><a href="https://theroamingworkshop.cloud" target="_blank">THE ROAMING WORKSHOP 2023</a></p>
+</div>
 <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
 
 <script type="importmap">
@@ -19,6 +27,7 @@
 </script>
 
 <script type="module">
+	var model3d="Unihiker_DFRcase_v1.glb";
     import * as THREE from 'three';
 
     import { GLTFLoader } from 'https://unpkg.com/three@0.146.0/examples/jsm/loaders/GLTFLoader.js';
@@ -33,38 +42,8 @@
 
 		const container = document.createElement( 'div' );
 		document.body.appendChild( container );
-
-		camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 0.1, 20 );
-        camera.position.set( 0.2, 0.2, 0.2 );
-
-		scene = new THREE.Scene();
     
-    //add background image
-const texture = new THREE.TextureLoader().load( "Unity1-north.png" );
-scene.background=texture; 
-            
-        scene.add( new THREE.AmbientLight( 0xffffff, 0.75 ) );
-
-		const dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-		dirLight.position.set( 5, 10, 7.5 );
-		dirLight.castShadow = true;
-		dirLight.shadow.camera.right = 2;
-		dirLight.shadow.camera.left = - 2;
-		dirLight.shadow.camera.top	= 2;
-		dirLight.shadow.camera.bottom = - 2;
-
-		dirLight.shadow.mapSize.width = 1024;
-		dirLight.shadow.mapSize.height = 1024;
-		scene.add( dirLight );
-
-        //model
-         const loader = new GLTFLoader();
-		 loader.load( 'rPi4_case_v1.glb', function ( gltf ) {
-			scene.add( gltf.scene );
-			render();
-		 } );
-
-		renderer = new THREE.WebGLRenderer( { antialias: true } );
+    	renderer = new THREE.WebGLRenderer( {antialiasing:true} );
                 
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
@@ -73,15 +52,93 @@ scene.background=texture;
 		renderer.outputEncoding = THREE.sRGBEncoding;
 		container.appendChild( renderer.domElement );
 
+		camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 2000 );
+        camera.position.set( 0.2, 0.2, 0.2 );
+    	camera.minDistance=1;
+    	camera.maxDistance=10;
+
+		scene = new THREE.Scene();
+
+		//skybox using Panorama - Cube example
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_panorama_cube.html    
+    	//define texture array
+    	const textures = [];
+    	const materials = [];
+    	//define skybox images urls
+    	const images = [
+        "skybox-sb2-east.png",
+        "skybox-sb4-west.png",
+        "skybox-sb5-top-90.png",
+        "skybox-sb6-bottom+90.png",
+        "skybox-sb1-north.png",
+        "skybox-sb3-south.png"
+        ];
+    
+
+		for ( let i = 0; i < 6; i ++ ) {
+			textures[ i ] = new THREE.Texture();
+		
+			new THREE.ImageLoader()
+			.load( images[i], ( image ) => {
+
+			let canvas, context;
+			const tileWidth = image.width;
+            const tileHeight = image.height;
+
+			canvas = document.createElement( 'canvas' );
+			context = canvas.getContext( '2d' );
+			canvas.height = tileHeight;
+			canvas.width = tileWidth;
+			context.drawImage( image, 0, 0, tileWidth, tileHeight );
+			textures[ i ].image = canvas;
+			textures[ i ].needsUpdate = true;
+        });
+        materials.push( new THREE.MeshBasicMaterial( { map: textures[ i ] } ) );
+        }
+		console.log(textures);
+    	console.log(materials);
+		const skyBox = new THREE.Mesh( new THREE.BoxGeometry( 100, 100, 100 ), materials );
+		skyBox.geometry.scale( 1, 1, -1 );
+		scene.add( skyBox );
+    
+        scene.add( new THREE.AmbientLight( 0xffffff, 0.5 ) );
+
+    	//light top
+		var dirLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
+		dirLight.position.set( 5, 10, 7.5 );
+		dirLight.castShadow = true;
+		dirLight.shadow.camera.right = 2;
+		dirLight.shadow.camera.left = - 2;
+		dirLight.shadow.camera.top	= 2;
+		dirLight.shadow.camera.bottom = - 2;
+
+		dirLight.shadow.mapSize.width = 512;
+		dirLight.shadow.mapSize.height = 512;
+		scene.add( dirLight );
+    
+    //light bottom
+		var dirLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
+		dirLight.position.set( -5, -10, -7.5 );
+		dirLight.castShadow = true;
+		dirLight.shadow.camera.right = 2;
+		dirLight.shadow.camera.left = - 2;
+		dirLight.shadow.camera.top	= 2;
+		dirLight.shadow.camera.bottom = - 2;
+
+		dirLight.shadow.mapSize.width = 512;
+		dirLight.shadow.mapSize.height = 512;
+		scene.add( dirLight );
+
 		const controls = new OrbitControls( camera, renderer.domElement );
 		controls.addEventListener( 'change', render );
         controls.minDistance = 0.001;
 		controls.maxDistance = 1;
 		controls.target.set( 0.03, 0.01, -0.01 );
 		controls.update();
-
+    	
 		window.addEventListener( 'resize', onWindowResize );
-
+    
+    	loadModel(model3d);
 	}
 
 	function onWindowResize() {
@@ -98,10 +155,20 @@ scene.background=texture;
 			//
 
 	function render() {
-
+    
 		renderer.render( scene, camera );
 
 	}
+
+	function loadModel(m){
+    
+    //model
+         const loader = new GLTFLoader();
+		 loader.load( m, function ( gltf ) {
+			scene.add( gltf.scene );
+         	render();
+		 } );
+    }
 
 </script>
 </body>
