@@ -1,6 +1,8 @@
 # DFRobot-UNIHIKER-case
 Open-source DFRobot themed cases for UNIHIKER dev board
 
+![DFR_case-strip](https://github.com/TheRoam/DFRobot-UNIHIKER-case/assets/63456390/efafec91-3e9c-4dfd-ae3d-066d63a51dbb)
+
 ![case_v1](https://github.com/TheRoam/DFRobot-UNIHIKER-case/assets/63456390/28cd25ce-e326-4b54-84b6-649e6f85a37d)
 
 1. Access the **model viewer** via:
