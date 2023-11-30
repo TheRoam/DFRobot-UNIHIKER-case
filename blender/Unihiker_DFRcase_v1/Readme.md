@@ -16,6 +16,10 @@ Themed to look like DFRobot logo.
 2. Support piece holds UNIHIKER board to the case using the inbuilt screws
 3. Top piece acts as a cover and clips on bottom piece.
 
+-Assembly instructions:
+
+[https://theroamingworkshop.cloud/b/en/2498/](https://theroamingworkshop.cloud/b/en/2498/)
+
 Changelog:
 v1.0.1
 - Fixes feet extrusion misadjustment
