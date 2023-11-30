@@ -1,5 +1,7 @@
 Blender file containing 3D case design for DFRobot UNIHIKER
 
+Version 1.0.0
+
 Themed to look like DFRobot logo.
 
 -Case features:
