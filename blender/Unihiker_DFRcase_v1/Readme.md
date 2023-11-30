@@ -1,6 +1,6 @@
 Blender file containing 3D case design for DFRobot UNIHIKER
 
-Version 1.0.0
+Version 1.0.1
 
 Themed to look like DFRobot logo.
 
@@ -15,3 +15,7 @@ Themed to look like DFRobot logo.
 1. Bottom piece acts as a casing.
 2. Support piece holds UNIHIKER board to the case using the inbuilt screws
 3. Top piece acts as a cover and clips on bottom piece.
+
+Changelog:
+v1.0.1
+- Fixes feet extrusion misadjustment
